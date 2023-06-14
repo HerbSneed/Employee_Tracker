@@ -1,20 +1,20 @@
-INSERT INTO department (id, name)
-VALUES (1, "Pre-Production"),
-       (2, "Prodcution"),
-       (3, "Post-Production");
+INSERT INTO department (department)
+VALUES ("Pre-Production"),
+       ("Prodcution"),
+       ("Post-Production");
 
-INSERT INTO role (id, title, salary, department_id)
-VALUES (1, "Writer", 45000.00, 1),
-       (2, "Camera Operator", 65000.00, 2),
-       (3, "Editor", 85000.00, 3),
-       (4, "Manager", 100000.00, 1);
+INSERT INTO role (title, salary)
+VALUES ("Writer", 45000.00),
+       ("Camera Operator", 65000.00),
+       ("Editor", 85000.00),
+       ("Manager", 100000.00);
 
-INSERT INTO employee_tracker (id, first_name, last_name, role_id)
-VALUES (1, "Juan", "Davis", 1),
-       (2, "Fransico", "Puertes", 2),
-       (3, "Herb", "Sneed", 3),
-       (4, "Shanda", "Hill", 4),
-       (5, "Todd", "Jones", 4);
+INSERT INTO employee_tracker (first_name, last_name)
+VALUES ("Juan", "Davis"),
+       ("Fransico", "Puertes"),
+       ("Herb", "Sneed"),
+       ("Shanda", "Hill"),
+       ("Todd", "Jones");
        
 UPDATE employee_tracker
 SET manager_id = 5

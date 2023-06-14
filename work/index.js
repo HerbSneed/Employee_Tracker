@@ -2,6 +2,7 @@ const inquirer = require("inquirer");
 const fs = require("fs");
 
 
+
 const intialPrompt = [
   {
     type: "list",
@@ -26,7 +27,7 @@ const addDepartment = [
     message: "Enter the name of the department.",
     name: "addDepartment",
   },
-]
+];
 
 const addRole = [
   {
@@ -84,3 +85,11 @@ const updateEmployeeRole = [
     name: "employeeAssignedRole",
   },
 ];
+
+function intialPrompt() {
+  inquirer.prompt(intialPrompt).then((response) => {
+    console.log(respnce);
+  })
+}
+
+intialPrompt();
