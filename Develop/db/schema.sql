@@ -12,8 +12,8 @@ CREATE TABLE role (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(30) NOT NULL,
   salary DECIMAL NOT NULL,
-  department_id INT,
-  FOREIGN KEY (department_id) 
+  department INT,
+  FOREIGN KEY (department) 
   REFERENCES department(id) ON DELETE SET NULL
 );
 
@@ -26,4 +26,8 @@ CREATE TABLE employee_tracker (
   manager_id INT,
   FOREIGN KEY (manager_id) REFERENCES employee_tracker(id) ON DELETE SET NULL
 );
+
+
+-- SHOW --
+
 
