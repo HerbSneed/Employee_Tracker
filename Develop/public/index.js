@@ -40,28 +40,30 @@ function init() {
         {
           type: "input",
           message: "What is the name of the department?",
-          name: "addDepartment"
+          name: "addDepartment",
         },
       ];
-      inquirer.prompt(addDepartment)
-      .then((answer) => {
+      inquirer.prompt(addDepartment).then((answer) => {
         const departmentName = answer.addDepartment;
-        db.query("INSERT INTO department (department) VALUES (?)", [departmentName], 
-        function(err, result) {
-          if (err) {
-            console.error(err);
-            return;
+        db.query(
+          "INSERT INTO department (department) VALUES (?)",
+          [departmentName],
+          function (err, result) {
+            if (err) {
+              console.error(err);
+              return;
+            }
+            console.log(`Added ${departmentName} to the Database`);
+            init();
           }
-        console.log(`Added ${departmentName} to the Database`);
-        init();
-        })
-      })
+        );
+      });
     } else if (response.initialPrompt === "Add Role") {
       const addRole = [
         {
           type: "input",
           message: "What's the name of the role?",
-          name: "role"
+          name: "role",
         },
         {
           type: "input",
@@ -76,40 +78,33 @@ function init() {
         },
       ];
 
-        db.query("SELECT * FROM department", function (err, results) {
-          if (err) {
-            console.error(err);
-            return;
-          }
-          addRole[2].choices = results.map(
-            (department) => department.department
-          );
+      db.query("SELECT * FROM department", function (err, results) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        addRole[2].choices = results.map((department) => department.department);
 
-          const departmentName = results.department;
+        inquirer.prompt(addRole).then((answer) => {
           const departmentId = results.find(
-            (department) => department.name === departmentName
+            (department) => department.department === answer.department
           ).id;
-        });
-
-      inquirer.prompt(addRole).then((answer) => {
-        const roleTitle = answer.role;
-        const roleSalary = answer.salary;
-        const roleDepartment = answer.department;
-        db.query(
-          "INSERT INTO role (title, salary, department) VALUES (?, ?)",
-          [roleTitle, roleSalary, roleDepartment],
-          function (err, result) {
-            if (err) {
-              console.error(err);
-              return;
-            }
-            console.log(`Added ${roleTitle} to the Database`);
-            init();
+          const roleTitle = answer.role;
+          const roleSalary = answer.salary;
+          db.query(
+            "INSERT INTO role (title, salary, department) VALUES (?, ?, ?)",
+            [roleTitle, roleSalary, departmentId],
+            function (err, result) {
+              if (err) {
+                console.error(err);
+                return;
+              }
+              console.log(`Added ${roleTitle} to the Database`);
+              init();
             }
           );
-    });
-
-    
+        });
+      });
     } else if (response.initialPrompt === "Add an Employee") {
       const addEmployee = [
         {
@@ -135,8 +130,50 @@ function init() {
           name: "employeeManager",
         },
       ];
+
+      db.query("SELECT * FROM role", function (err, results) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      addEmployee[2].choices = results.map((role) => role.title);
+
+      db.query("SELECT * FROM employee_tracker", function (err, results) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+      addEmployee[3].choices = results.map((employee_tracker) => employee_tracker.first_name + " " + employee_tracker.last_name);
+      
       inquirer.prompt(addEmployee)
-      init();
+        .then((answer) => {
+        const employeeFirstName = answer.employeeFirstName;
+        const employeeLastName = answer.employeeLastName;
+        const roleId = results.find(
+        (role) => role.title === answer.role).id;
+        const employeeManager = answer.employeeManager;
+
+        db.query(
+          "INSERT INTO employee_tracker (first_name, last_name, role_id) VALUES (?, ?, ?)",
+          [employeeFirstName, employeeLastName, roleId],
+          function (err, result) {
+            if (err) {
+              console.error(err);
+              return;
+            }
+            console.log(`Added ${employeeFirstName + " " + employeeLastName} into the Database`);
+
+          }
+        );
+      })
+
+
+
+
+
+    });
+    });
+
     } else if (response.initialPrompt === "Update Employee Role") {
       const updateEmployeeRole = [
         {
