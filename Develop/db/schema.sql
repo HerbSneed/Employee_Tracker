@@ -36,6 +36,4 @@ SET full_name = CONCAT(first_name, ' ', last_name)
 WHERE id IS NOT NULL;
 
 
--- SHOW --
-
 

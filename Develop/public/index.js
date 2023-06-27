@@ -26,7 +26,7 @@ function init() {
         'SELECT DISTINCT department.id, department.department FROM department',
         function (err, results) {
           console.table(results);
-          init();
+          return init();
         }
       );
     } else if (response.initialPrompt === 'View All Roles') {
@@ -35,7 +35,7 @@ function init() {
         
         function (err, results) {
           console.table(results);
-          init();
+          return init();
         }
       );
     } else if (response.initialPrompt === 'View All Employees') {
@@ -43,7 +43,7 @@ function init() {
         'SELECT DISTINCT employee_tracker.id, employee_tracker.first_name, employee_tracker.last_name, role.title, role.salary, employee_tracker.manager FROM employee_tracker JOIN role ON employee_tracker.role_id = role.id',
         function (err, results) {
           console.table(results);
-          init();
+          return init();
         }
       );
     } else if (response.initialPrompt === 'Add Department') {
@@ -65,7 +65,7 @@ function init() {
               return;
             }
             console.log(`Added ${departmentName} to the Database`);
-            init();
+          return init();
           }
         );
       });
@@ -113,7 +113,7 @@ function init() {
                 return;
               }
               console.log(`Added ${roleTitle} to the Database`);
-              init();
+              return init();
             }
           );
         });
@@ -196,7 +196,7 @@ function init() {
                   console.log(
                     `Added ${employeeFirstName} ${employeeLastName} into the Database`
                   );
-                  init();
+                  return init();
                 }
               );
             });
@@ -256,7 +256,7 @@ function init() {
                     return;
                   }
                   console.log(`Updated ${employeeName}'s role in the Database`);
-                  init();
+                return init();
                 }
               );
             });
@@ -270,4 +270,4 @@ function init() {
   });
 }
 
-module.exports = startPrompt;
+module.exports = init;
