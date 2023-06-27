@@ -13,6 +13,7 @@ const initialPrompt = [
       'Add Role',
       'Add an Employee',
       'Update Employee Role',
+      'Quit',
     ],
     name: 'initialPrompt',
   },
@@ -21,13 +22,17 @@ const initialPrompt = [
 function init() {
   inquirer.prompt(initialPrompt).then(response => {
     if (response.initialPrompt === 'View All Departments') {
-      db.query('select DISTINCT * from department', function (err, results) {
-        console.table(results);
-        init();
-      });
+      db.query(
+        'SELECT DISTINCT department.id, department.department FROM department',
+        function (err, results) {
+          console.table(results);
+          init();
+        }
+      );
     } else if (response.initialPrompt === 'View All Roles') {
       db.query(
         'SELECT DISTINCT role.id, role.title, role.salary, department.department AS department FROM role JOIN department ON role.department_id = department.id',
+        
         function (err, results) {
           console.table(results);
           init();
@@ -250,7 +255,7 @@ function init() {
                     console.error(err);
                     return;
                   }
-                  console.log(`Added ${employeeName} into the Database`);
+                  console.log(`Updated ${employeeName}'s role in the Database`);
                   init();
                 }
               );
@@ -258,8 +263,11 @@ function init() {
           });
         }
       );
+    } else if (response.initialPrompt === 'Quit') {
+        console.log('Exiting the application...');
+        process.exit(); 
     }
   });
 }
 
-module.exports = init;
+module.exports = startPrompt;
