@@ -4,7 +4,7 @@ const app = express();
 const db = require('./db');
 const init = require('./public/index.js');
 
-// Express middleware
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
@@ -32,7 +32,7 @@ app.get('/api/employee_tracker', (req, res) => {
 });
 
 app.get('/init', (req, res) => {
-  init(); // Call the startPrompts function
+  init(); 
   res.send('Prompts started.');
 });
 
@@ -41,6 +41,5 @@ app.use((req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
   init();
 });

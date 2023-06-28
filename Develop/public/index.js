@@ -40,7 +40,7 @@ function init() {
       );
     } else if (response.initialPrompt === 'View All Employees') {
       db.query(
-        'SELECT DISTINCT employee_tracker.id, employee_tracker.first_name, employee_tracker.last_name, role.title, role.salary, employee_tracker.manager FROM employee_tracker JOIN role ON employee_tracker.role_id = role.id',
+        'SELECT DISTINCT employee_tracker.id, employee_tracker.first_name, employee_tracker.last_name, role.title, role.salary, department.department AS department, employee_tracker.manager FROM employee_tracker JOIN role ON employee_tracker.role_id = role.id JOIN department ON role.department_id = department.id',
         function (err, results) {
           console.table(results);
           return init();
